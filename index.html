@@ -322,10 +322,12 @@
     document.getElementById("result-text").textContent = text;
     document.getElementById("success").classList.add("show");
 
+    // Send result back to form tab via localStorage
+    localStorage.setItem("qr_scanned", text);
+
+    // Close this tab after 1.5 seconds
     setTimeout(function() {
-      if (returnUrl) {
-        window.location.href = returnUrl + "&scanned=" + encodeURIComponent(text);
-      }
+      window.close();
     }, 1500);
   }
 
