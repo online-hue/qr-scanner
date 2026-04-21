@@ -318,13 +318,18 @@
   function onScanSuccess(text) {
     if (codeReader) { codeReader.reset(); codeReader = null; }
     if (navigator.vibrate) navigator.vibrate(200);
-
+  
     document.getElementById("result-text").textContent = text;
     document.getElementById("success").classList.add("show");
-
-    // Send result back to form tab via localStorage
-    localStorage.setItem("qr_scanned", text);
-
+  
+    // Send result back to form tab
+    if (window.opener) {
+      window.opener.postMessage(
+        { type: "QR_SCANNED", value: text },
+        "*"
+      );
+    }
+  
     // Close this tab after 1.5 seconds
     setTimeout(function() {
       window.close();
